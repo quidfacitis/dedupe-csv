@@ -17,13 +17,26 @@ const parseCsv = (csvPath) => {
         if (headerPassed) {
           const domain = extractDomain(row[0]).trim();
 
-          // increment existing domains, initialize new ones and add row to dedupedCsv
-          if (domainCount[domain]) {
-            domainCount[domain] += 1;
-          } else {
-            domainCount[domain] = 1;
-            dedupedCsv.push([domain, ...row.slice(1)]);
+          let foundSubDomain = false;
+          // check for subdomains; if found, increment existing domain count
+          for (domainName in domainCount) {
+            if (domain.includes(domainName) || domainName.includes(domain)) {
+              domainCount[domainName] += 1;
+              foundSubDomain = true;
+              break;
+            }
           }
+
+          if (!foundSubDomain) {
+            // increment existing domains, initialize new ones and add row to dedupedCsv
+            if (domainCount[domain]) {
+              domainCount[domain] += 1;
+            } else {
+              domainCount[domain] = 1;
+              dedupedCsv.push(row);
+            }
+          }
+
         } else {
           headerPassed = true;
           dedupedCsv.push(row); // headers
