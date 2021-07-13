@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dedupeCsv.js"
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fast-csv": "^4.3.6"
+    "express": "^4.17.1",
+    "fast-csv": "^4.3.6",
+    "multer": "^1.4.2"
   }
 }

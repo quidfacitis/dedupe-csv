@@ -1,0 +1,37 @@
+body {
+  background-color: #efefef;
+}
+
+form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  height: 50vh;
+  background-color: white;
+  border-radius: 15px;
+  padding: 2em;
+  box-shadow: 2px 2px 10px 2px #000000;
+}
+
+#form-contents {
+  width: fit-content;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#csv-input-label {
+  margin-top: 1em;
+  font-size: 1.5em;
+}
+
+#csv-input,
+#csv-submit,
+#download-csv,
+#download-json {
+  margin-top: 1.2em;
+  font-size: 1em;
+}

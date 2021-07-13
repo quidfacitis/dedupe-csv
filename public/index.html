@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1:0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Dedupe-CSV</title>
+</head>
+<body>
+  <form>
+    <div id="form-contents">
+      <label id="csv-input-label" for="csv-input">Choose a CSV file to deduplicate:</label>
+      <input type="file" name="csv-input" id="csv-input" accept=".csv" required />
+      <input type="submit" value="Submit" id="csv-submit" />
+      <a id="download-csv"></a>
+      <a id="download-json"></a>
+    </div>
+  </form>
+  <script src="./js/submitFormData.js"></script>
+</body>
+</html>
