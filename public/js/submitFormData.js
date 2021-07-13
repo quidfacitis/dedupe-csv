@@ -19,7 +19,7 @@ formElem.addEventListener('formdata', (e) => {
 
   // submit the data via XHR
   let request = new XMLHttpRequest();
-  request.open("POST", "/testRoute");
+  request.open("POST", "/dedupe");
   request.send(data);
   request.onload = function(event) {
     console.log(event.target.response);

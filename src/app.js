@@ -3,16 +3,14 @@ const multer = require('multer');
 const app = express();
 const path = require('path');
 const fs = require('fs');
-const { dedupeCsv } = require('./dedupeCsv');
+const { dedupeCsv } = require('./utils/dedupeCsv');
 
+const port = process.env.PORT || 3000;
+const publicDirectoryPath = path.join(__dirname, '../public');
+app.use(express.static(publicDirectoryPath));
 app.use(express.json());
 
 global.__basedir = __dirname;
-
-const port = process.env.PORT || 3000;
-
-const publicDirectoryPath = path.join(__dirname, '../public');
-app.use(express.static(publicDirectoryPath));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -25,24 +23,27 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// const clearOutUploads = (req, res, next) => {
-//   fs.readdir(__basedir + '/uploads/', (err, files) => {
-//     if (err) {
-//       next();
-//     }
-//     for (const file of files) {
-//       fs.unlink(__basedir + '/uploads/' + file, err => {
-//         if (err) {
-//           next();
-//         }
-//       });
-//     }
-//   });
+// middleware to remove any 'old' files from uploads folder when new CSV is uploaded
+const clearOutUploads = (req, res, next) => {
+  fs.readdir(__basedir + '/uploads/', (err, files) => {
+    if (err) {
+      next();
+    }
+    for (const file of files) {
+      if (file !== req.file.filename) {
+        fs.unlink(__basedir + '/uploads/' + file, err => {
+          if (err) {
+            next();
+          }
+        });
+      }
+    }
+  });
 
-//   next();
-// }
+  next();
+}
 
-app.post('/testRoute', upload.single("csv-input"), async (req, res) => {
+app.post('/dedupe', upload.single("csv-input"), clearOutUploads, async (req, res) => {
   try {
     await dedupeCsv(__basedir + '/uploads/' + req.file.filename);
     return res.json({ csv: `${req.file.filename.slice(0, -4)}-deduped.csv`, json: `${req.file.filename.slice(0, -4)}-domain-count.json`});
