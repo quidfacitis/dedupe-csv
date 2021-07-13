@@ -16,4 +16,15 @@ npm install
 npm start
 ```
 
+## Quick Start (Docker)
+
+```bash
+# Start app with
+docker-compose up
+
+# End app with
+CTRL+C
+docker-compose down
+```
+
 > Then, open a browser and navigate to localhost:3000
